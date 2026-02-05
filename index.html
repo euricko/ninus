@@ -4,32 +4,29 @@
   <meta charset="UTF-8" />
   <title>VALENTINKA</title>
   <style>
-    body {
+    html, body {
       margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      padding: 0;
+      width: 100%;
+      height: 100%;
       font-family: Arial, sans-serif;
       background: #ffe6ee;
       overflow: hidden;
-      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       box-sizing: border-box;
-      overflow-x: hidden;
     }
-#result > * {
-  transform-origin: center center;
-}
 
     .container {
-  text-align: center;
-  width: 100%;
-  max-width: 700px; /* obmedzte max šírku */
-  padding: 10px;
-  position: relative;
-  z-index: 2;
-  margin: 0 auto;  /* pridajte toto */
-}
+      text-align: center;
+      max-width: 700px;
+      width: 100%;
+      padding: 10px;
+      position: relative;
+      z-index: 2;
+      margin: auto;
+    }
 
     .force-text {
       font-size: 3.5rem;
@@ -51,11 +48,10 @@
       position: relative;
       width: 100%;
       max-width: 600px;
-      height: 400px;
-      margin: 0 auto;
       display: flex;
       justify-content: center;
       align-items: center;
+      margin: 0 auto;
     }
 
     .buttons {
@@ -66,15 +62,14 @@
     }
 
     button {
-  font-size: 3rem;
-  padding: 35px 80px;
-  border: none;
-  border-radius: 16px;
-  cursor: pointer;
-  position: relative;
-  transition: transform 0.2s ease, background-color 0.3s;
-}
-
+      font-size: 3rem;
+      padding: 35px 80px;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s ease, background-color 0.3s;
+    }
 
     #yesBtn {
       background-color: #3ddcff;
@@ -92,39 +87,41 @@
     }
 
     #result {
-  margin-top: 50px;
-  display: none;
-  text-align: center;          /* center all children */
-}
+      margin-top: 50px;
+      display: none;
+      text-align: center;
+    }
 
-#result h2 {
-  font-size: 4rem;
-  color: #3ddcff;
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
-  animation: zoomBounce 0.5s ease forwards;
-  transform-origin: center;    /* ensures zoom scales from center */
-  margin-bottom: 20px;
-}
+    #result > * {
+      transform-origin: center center;
+    }
 
-#result h3 {
-  font-size: 3.5rem;
-  color: #000000;
-  opacity: 0;
-  animation: zoomBounce 0.5s ease 0.3s forwards;
-  transform-origin: center;
-  margin-bottom: 20px;
-}
+    #result h2 {
+      font-size: 4rem;
+      color: #3ddcff;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+      animation: zoomBounce 0.5s ease forwards;
+      margin-bottom: 20px;
+    }
 
-#result img {
-  display: block;               /* block to allow margin auto */
-  margin: 0 auto 30px auto;     /* center horizontally with bottom spacing */
-  width: 400px;                 /* bigger size for visibility */
-  max-width: 90vw;              /* responsive */
-  height: auto;                 /* maintain aspect ratio */
-  opacity: 0;
-  animation: zoomBounce 0.5s ease 0.6s forwards;
-  transform-origin: center;     /* scale from center */
-}
+    #result h3 {
+      font-size: 3.5rem;
+      color: #000;
+      opacity: 0;
+      animation: zoomBounce 0.5s ease 0.3s forwards;
+      margin-bottom: 20px;
+    }
+
+    #result img {
+      display: block;
+      margin: 0 auto 30px auto;
+      width: 90vw;
+      max-width: 400px;
+      height: auto;
+      opacity: 0;
+      animation: zoomBounce 0.5s ease 0.6s forwards;
+    }
+
     .heart {
       position: absolute;
       bottom: -50px;
@@ -170,17 +167,14 @@
       button { font-size: 1.8rem; padding: 20px 50px; }
       #result h2 { font-size: 3rem; }
       #result h3 { font-size: 2.8rem; }
-      .buttons-wrapper { height: 350px; }
+      .buttons-wrapper { height: auto; }
       .heart { font-size: 16px; }
     }
   </style>
 </head>
 <body>
-
   <div class="container">
-<div class="force-text" id="forceText">
-      🖤🩵
-    </div>
+    <div class="force-text" id="forceText">🖤🩵</div>
     <h1 id="question">Budeš moja valentínka?🤔</h1>
 
     <div class="buttons-wrapper" id="wrapper">
@@ -195,7 +189,6 @@
       <h3>MILUJEM ŤA NINUŠKAAAA!!!🖤🩵</h3>
       <img src="https://media.tenor.com/HSxxt1scQXYAAAAM/cat-hugs.gif" alt="rose">
     </div>
-
   </div>
 
   <script>
@@ -226,17 +219,14 @@
       setTimeout(() => heart.remove(), 4000);
     }
 
-    
-
     noBtn.addEventListener("click", () => {
       noBtn.style.animation = "shake 0.5s";
       setTimeout(() => noBtn.style.animation = "", 500);
 
-noBtn.style.backgroundColor = "#ff69b4";
-setTimeout(() => {
-  noBtn.style.backgroundColor = "#ccc";
-}, 500);
-
+      noBtn.style.backgroundColor = "#ff69b4";
+      setTimeout(() => {
+        noBtn.style.backgroundColor = "#ccc";
+      }, 500);
 
       forceText.textContent = noMessages[noIndex];
       forceText.style.display = "block";
@@ -244,40 +234,14 @@ setTimeout(() => {
     });
 
     yesBtn.addEventListener("click", () => {
-  forceText.style.display = "none";
-  document.getElementById("question").style.display = "none";
-  wrapper.style.display = "none";
-  result.style.display = "block";
+      forceText.style.display = "none";
+      document.getElementById("question").style.display = "none";
+      wrapper.style.display = "none";
+      result.style.display = "block";
 
-  // Spawn multiple hearts continuously after Yes is clicked
-  const heartInterval = setInterval(createHeart, 10);
-
-});
-
+      // Spawn multiple hearts continuously
+      setInterval(createHeart, 10);
+    });
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
