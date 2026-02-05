@@ -59,8 +59,8 @@
     }
 
     button {
-  font-size: 3rem;    /* was 2.5rem */
-  padding: 35px 80px; /* was 30px 70px */
+  font-size: 3rem;
+  padding: 35px 80px;
   border: none;
   border-radius: 16px;
   cursor: pointer;
@@ -105,7 +105,7 @@
 
     #result img {
   margin-top: 30px;
-  width: 700px; /* was 320px */
+  width: 700px;
   max-width: 90vw;
   opacity: 0;
   animation: zoomBounce 0.5s ease 0.6s forwards;
@@ -114,7 +114,7 @@
 
     .heart {
       position: absolute;
-      bottom: -50px; /* start slightly below screen */
+      bottom: -50px;
       font-size: 24px;
       pointer-events: none;
       user-select: none;
@@ -165,10 +165,6 @@
 <body>
 
   <div class="container">
-
-    <div class="force-text" id="forceText">
-      MUSÍME BYŤ SPOLU NA VALENTÍNA, CHÁPEŠ NINKA?
-    </div>
 
     <h1 id="question">Budeš moja valentínka?🤔</h1>
 
@@ -223,7 +219,7 @@
       setTimeout(() => noBtn.style.animation = "", 500);
 
       // Only gray/pink/black
-      noBtn.style.backgroundColor = ["#ccc", "#ff69b4", "#000"][Math.floor(Math.random()*3)];
+      noBtn.style.backgroundColor = ["#ccc", "#ff69b4"][Math.floor(Math.random()*2)];
 
       forceText.textContent = noMessages[noIndex];
       forceText.style.display = "block";
@@ -244,6 +240,7 @@
   </script>
 </body>
 </html>
+
 
 
 
