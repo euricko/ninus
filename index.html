@@ -13,24 +13,29 @@
       font-family: Arial, sans-serif;
       background: #ffe6ee;
       overflow: hidden;
+      position: relative;
     }
 
     .container {
       text-align: center;
       width: 100%;
+      padding: 10px;
+      position: relative;
+      z-index: 2;
     }
 
     .force-text {
-      font-size: 2.2rem;
+      font-size: 2.8rem;
       color: #3ddcff;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       display: none;
       font-weight: bold;
+      animation: slideDown 0.5s ease forwards;
     }
 
     h1 {
-      font-size: 3.2rem;
-      margin-bottom: 40px;
+      font-size: 4rem;
+      margin-bottom: 50px;
       color: #333;
     }
 
@@ -38,7 +43,7 @@
       position: relative;
       width: 100%;
       max-width: 600px;
-      height: 300px;
+      height: 400px;
       margin: 0 auto;
       display: flex;
       justify-content: center;
@@ -47,24 +52,29 @@
 
     .buttons {
       display: flex;
-      gap: 30px;
+      gap: 40px;
       justify-content: center;
       align-items: center;
     }
 
     button {
-      font-size: 1.6rem;
-      padding: 18px 45px;
+      font-size: 2rem;
+      padding: 25px 60px;
       border: none;
-      border-radius: 12px;
+      border-radius: 16px;
       cursor: pointer;
       position: relative;
-      transition: transform 0.15s ease;
+      transition: transform 0.2s ease, background-color 0.3s;
     }
 
     #yesBtn {
       background-color: #3ddcff;
       color: #00323a;
+      animation: pulse 1.2s infinite;
+    }
+
+    #yesBtn:hover {
+      transform: scale(1.1);
     }
 
     #noBtn {
@@ -73,22 +83,77 @@
     }
 
     #result {
-      margin-top: 40px;
+      margin-top: 50px;
       display: none;
     }
 
     #result h2 {
-      font-size: 3.5rem;
+      font-size: 4rem;
       color: #3ddcff;
+      animation: zoomBounce 0.5s ease;
     }
-	#result h3 {
+
+    #result h3 {
       font-size: 3.5rem;
       color: #000000;
+      animation: zoomBounce 0.5s ease 0.2s forwards;
     }
 
     #result img {
-      margin-top: 25px;
-      width: 300px;
+      margin-top: 30px;
+      width: 320px;
+      max-width: 90vw;
+      animation: zoomBounce 0.5s ease 0.4s forwards;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background-color: #3ddcff;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: floatUp 1s linear forwards;
+      z-index: 1;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      50% { transform: translateX(10px); }
+      75% { transform: translateX(-10px); }
+      100% { transform: translateX(0); }
+    }
+
+    @keyframes slideDown {
+      0% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes zoomBounce {
+      0% { transform: scale(0); }
+      60% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-200px) rotate(360deg); opacity: 0; }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 3rem; margin-bottom: 40px; }
+      .force-text { font-size: 2.2rem; }
+      button { font-size: 1.8rem; padding: 20px 50px; }
+      #result h2 { font-size: 3rem; }
+      #result h3 { font-size: 2.8rem; }
+      .buttons-wrapper { height: 350px; }
     }
   </style>
 </head>
@@ -111,91 +176,60 @@
 
     <div id="result">
       <h2>LETSGOOOO!!!!!</h2>
-	<h3>MILUJEM ŤA NINUŠKAAAA!!!! 🖤💙🖤💙</h3>
+      <h3>MILUJEM ŤA NINUŠKAAAA!!!! 🖤💙🖤💙</h3>
       <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="happy gif">
     </div>
 
   </div>
 
   <script>
-  const noBtn = document.getElementById("noBtn");
-  const yesBtn = document.getElementById("yesBtn");
-  const buttons = document.getElementById("buttons");
-  const wrapper = document.getElementById("wrapper");
-  const forceText = document.getElementById("forceText");
-  const question = document.getElementById("question");
-  const result = document.getElementById("result");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const forceText = document.getElementById("forceText");
+    const result = document.getElementById("result");
+    const wrapper = document.getElementById("wrapper");
 
-  let activated = false;
+    const noMessages = [
+      "Are you sure? 😏",
+      "Try again ❤️",
+      "You know you want to 😘",
+      "Nooo… don’t be shy!"
+    ];
+    let noIndex = 0;
 
-  function overlaps(a, b) {
-    return !(
-      a.right < b.left ||
-      a.left > b.right ||
-      a.bottom < b.top ||
-      a.top > b.bottom
-    );
-  }
-
-  function distance(x1, y1, x2, y2) {
-    return Math.hypot(x2 - x1, y2 - y1);
-  }
-
-  function dodgeNo() {
-    if (!activated) {
-      activated = true;
-      buttons.style.justifyContent = "center";
-      noBtn.style.position = "absolute";
-      wrapper.appendChild(noBtn);
+    function createConfetti() {
+      const confetti = document.createElement("div");
+      confetti.classList.add("confetti");
+      confetti.style.left = (yesBtn.offsetLeft + Math.random() * yesBtn.offsetWidth) + "px";
+      confetti.style.top = (yesBtn.offsetTop + Math.random() * yesBtn.offsetHeight) + "px";
+      confetti.style.backgroundColor = Math.random() > 0.5 ? "#3ddcff" : "#000";
+      wrapper.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 1000);
     }
 
-    const wrapperRect = wrapper.getBoundingClientRect();
-    const yesRect = yesBtn.getBoundingClientRect();
-    const btnRect = noBtn.getBoundingClientRect();
+    noBtn.addEventListener("click", () => {
+      // Shake button
+      noBtn.style.animation = "shake 0.5s";
+      setTimeout(() => noBtn.style.animation = "", 500);
 
-    const bigRadius = 350; 
-    const minMove = 150; // minimum distance from current position
-    let attempts = 0;
-    let x, y;
+      // Change color
+      noBtn.style.backgroundColor = ["#ccc", "#ff69b4", "#3ddcff", "#000"][Math.floor(Math.random()*4)];
 
-    const currentX = noBtn.offsetLeft;
-    const currentY = noBtn.offsetTop;
+      // Show teasing message
+      forceText.textContent = noMessages[noIndex];
+      forceText.style.display = "block";
+      noIndex = (noIndex + 1) % noMessages.length;
+    });
 
-    do {
-      const angle = Math.random() * Math.PI * 2;
-      const dist = Math.random() * bigRadius * 0.6 + bigRadius * 0.4; // 40%-100% of big radius
+    yesBtn.addEventListener("click", () => {
+      forceText.style.display = "none";
+      document.getElementById("question").style.display = "none";
+      wrapper.style.display = "none";
+      result.style.display = "block";
 
-      x = yesRect.left - wrapperRect.left + yesRect.width/2 + Math.cos(angle) * dist - btnRect.width/2;
-      y = yesRect.top - wrapperRect.top + yesRect.height/2 + Math.sin(angle) * dist - btnRect.height/2;
-
-      // Clamp inside wrapper
-      x = Math.max(0, Math.min(wrapperRect.width - btnRect.width, x));
-      y = Math.max(0, Math.min(wrapperRect.height - btnRect.height, y));
-
-      attempts++;
-    } while (
-      (overlaps(noBtn.getBoundingClientRect(), yesRect) ||
-      distance(currentX, currentY, x, y) < minMove) &&
-      attempts < 30
-    );
-
-    noBtn.style.left = `${x}px`;
-    noBtn.style.top = `${y}px`;
-
-    forceText.style.display = "block";
-  }
-
-  noBtn.addEventListener("mouseenter", dodgeNo);
-  noBtn.addEventListener("click", dodgeNo);
-
-  yesBtn.addEventListener("click", () => {
-    forceText.style.display = "none";
-    question.style.display = "none";
-    wrapper.style.display = "none";
-    result.style.display = "block";
-  });
-</script>
-
-
+      // Create some confetti around Yes
+      for(let i=0;i<25;i++) createConfetti();
+    });
+  </script>
 </body>
 </html>
