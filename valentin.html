@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>VALENTINKA</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background: #ffe6ee;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      width: 100%;
+    }
+
+    .force-text {
+      font-size: 2.2rem;
+      color: #3ddcff;
+      margin-bottom: 15px;
+      display: none;
+      font-weight: bold;
+    }
+
+    h1 {
+      font-size: 3.2rem;
+      margin-bottom: 40px;
+      color: #333;
+    }
+
+    .buttons-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      height: 300px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    button {
+      font-size: 1.6rem;
+      padding: 18px 45px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.15s ease;
+    }
+
+    #yesBtn {
+      background-color: #3ddcff;
+      color: #00323a;
+    }
+
+    #noBtn {
+      background-color: #ccc;
+      color: #333;
+    }
+
+    #result {
+      margin-top: 40px;
+      display: none;
+    }
+
+    #result h2 {
+      font-size: 3.5rem;
+      color: #3ddcff;
+    }
+	#result h3 {
+      font-size: 3.5rem;
+      color: #000000;
+    }
+
+    #result img {
+      margin-top: 25px;
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="force-text" id="forceText">
+      MUSÍME BYŤ SPOLU NA VALENTÍNA, CHÁPEŠ NINKA?
+    </div>
+
+    <h1 id="question">Budeš moja valentínka?🤔</h1>
+
+    <div class="buttons-wrapper" id="wrapper">
+      <div class="buttons" id="buttons">
+        <button id="yesBtn">ANKOOOOO</button>
+        <button id="noBtn">HELL NAH</button>
+      </div>
+    </div>
+
+    <div id="result">
+      <h2>LETSGOOOO!!!!!</h2>
+	<h3>MILUJEM ŤA NINUŠKAAAA!!!! 🖤💙🖤💙</h3>
+      <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="happy gif">
+    </div>
+
+  </div>
+
+  <script>
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const buttons = document.getElementById("buttons");
+  const wrapper = document.getElementById("wrapper");
+  const forceText = document.getElementById("forceText");
+  const question = document.getElementById("question");
+  const result = document.getElementById("result");
+
+  let activated = false;
+
+  function overlaps(a, b) {
+    return !(
+      a.right < b.left ||
+      a.left > b.right ||
+      a.bottom < b.top ||
+      a.top > b.bottom
+    );
+  }
+
+  function distance(x1, y1, x2, y2) {
+    return Math.hypot(x2 - x1, y2 - y1);
+  }
+
+  function dodgeNo() {
+    if (!activated) {
+      activated = true;
+      buttons.style.justifyContent = "center";
+      noBtn.style.position = "absolute";
+      wrapper.appendChild(noBtn);
+    }
+
+    const wrapperRect = wrapper.getBoundingClientRect();
+    const yesRect = yesBtn.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
+
+    const bigRadius = 350; 
+    const minMove = 150; // minimum distance from current position
+    let attempts = 0;
+    let x, y;
+
+    const currentX = noBtn.offsetLeft;
+    const currentY = noBtn.offsetTop;
+
+    do {
+      const angle = Math.random() * Math.PI * 2;
+      const dist = Math.random() * bigRadius * 0.6 + bigRadius * 0.4; // 40%-100% of big radius
+
+      x = yesRect.left - wrapperRect.left + yesRect.width/2 + Math.cos(angle) * dist - btnRect.width/2;
+      y = yesRect.top - wrapperRect.top + yesRect.height/2 + Math.sin(angle) * dist - btnRect.height/2;
+
+      // Clamp inside wrapper
+      x = Math.max(0, Math.min(wrapperRect.width - btnRect.width, x));
+      y = Math.max(0, Math.min(wrapperRect.height - btnRect.height, y));
+
+      attempts++;
+    } while (
+      (overlaps(noBtn.getBoundingClientRect(), yesRect) ||
+      distance(currentX, currentY, x, y) < minMove) &&
+      attempts < 30
+    );
+
+    noBtn.style.left = `${x}px`;
+    noBtn.style.top = `${y}px`;
+
+    forceText.style.display = "block";
+  }
+
+  noBtn.addEventListener("mouseenter", dodgeNo);
+  noBtn.addEventListener("click", dodgeNo);
+
+  yesBtn.addEventListener("click", () => {
+    forceText.style.display = "none";
+    question.style.display = "none";
+    wrapper.style.display = "none";
+    result.style.display = "block";
+  });
+</script>
+
+
+</body>
+</html>
