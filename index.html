@@ -107,14 +107,16 @@
     }
 
     #result img {
-  display: block;            /* center horizontally */
-  margin: 30px auto 0;       /* top margin + horizontal center */
-  width: 400px;              /* increase size from 220px */
-  max-width: 90vw;           /* responsive */
-  height: auto;              /* keep 1:1 aspect ratio */
+  display: block;               /* make it a block element */
+  margin: 30px auto 0;          /* center horizontally */
+  width: 400px;                  /* adjust to preferred size */
+  max-width: 90vw;               /* responsive */
+  height: auto;                  /* maintain aspect ratio */
+  transform-origin: center;      /* ensure zoom animation scales from center */
   opacity: 0;
   animation: zoomBounce 0.5s ease 0.6s forwards;
 }
+
 
 
 
@@ -250,6 +252,7 @@ setTimeout(() => {
   </script>
 </body>
 </html>
+
 
 
 
