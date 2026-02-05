@@ -90,31 +90,31 @@
     #result h2 {
       font-size: 4rem;
       color: #3ddcff;
-      animation: zoomBounce 0.5s ease;
+      animation: zoomBounce 0.5s ease forwards;
     }
 
     #result h3 {
       font-size: 3.5rem;
       color: #000000;
-      animation: zoomBounce 0.5s ease 0.2s forwards;
+      opacity: 0;
+      animation: zoomBounce 0.5s ease 0.3s forwards;
     }
 
     #result img {
       margin-top: 30px;
       width: 320px;
       max-width: 90vw;
-      animation: zoomBounce 0.5s ease 0.4s forwards;
+      opacity: 0;
+      animation: zoomBounce 0.5s ease 0.6s forwards;
     }
 
-    .confetti {
+    .heart {
       position: absolute;
-      width: 15px;
-      height: 15px;
-      background-color: #3ddcff;
-      border-radius: 50%;
+      bottom: -30px; /* start slightly below screen */
+      font-size: 24px;
       pointer-events: none;
-      animation: floatUp 1s linear forwards;
-      z-index: 1;
+      user-select: none;
+      animation: floatUp 3s linear forwards;
     }
 
     @keyframes pulse {
@@ -137,14 +137,14 @@
     }
 
     @keyframes zoomBounce {
-      0% { transform: scale(0); }
-      60% { transform: scale(1.2); }
-      100% { transform: scale(1); }
+      0% { transform: scale(0); opacity: 0; }
+      60% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
     }
 
     @keyframes floatUp {
       0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(-200px) rotate(360deg); opacity: 0; }
+      100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
     }
 
     @media (max-width: 480px) {
@@ -154,6 +154,7 @@
       #result h2 { font-size: 3rem; }
       #result h3 { font-size: 2.8rem; }
       .buttons-wrapper { height: 350px; }
+      .heart { font-size: 16px; }
     }
   </style>
 </head>
@@ -176,7 +177,7 @@
 
     <div id="result">
       <h2>LETSGOOOO!!!!!</h2>
-      <h3>MILUJEM ŤA NINUŠKAAAA!!!! 🖤💙🖤💙</h3>
+      <h3>MILUJEM ŤA NINUŠKAAAA!!!! 🖤🩵🖤🩵</h3>
       <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="happy gif">
     </div>
 
@@ -190,46 +191,52 @@
     const wrapper = document.getElementById("wrapper");
 
     const noMessages = [
-      "Are you sure? 😏",
-      "Try again ❤️",
-      "You know you want to 😘",
-      "Nooo… don’t be shy!"
+      "NEROZMYSLELA SI SI TO?",
+      "SI SI FAKT ISTÁ?",
+      "ISTOOOOOOOO?",
+      "ALENOOOOOOO",
+      "😔😔😔😔😔😔",
+      "NINKAAAAA☹️☹️☹️"
     ];
     let noIndex = 0;
 
-    function createConfetti() {
-      const confetti = document.createElement("div");
-      confetti.classList.add("confetti");
-      confetti.style.left = (yesBtn.offsetLeft + Math.random() * yesBtn.offsetWidth) + "px";
-      confetti.style.top = (yesBtn.offsetTop + Math.random() * yesBtn.offsetHeight) + "px";
-      confetti.style.backgroundColor = Math.random() > 0.5 ? "#3ddcff" : "#000";
-      wrapper.appendChild(confetti);
-      setTimeout(() => confetti.remove(), 1000);
+    // Generate random floating heart
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = Math.random() > 0.5 ? "🖤" : "🩵";
+      heart.style.left = Math.random() * window.innerWidth + "px";
+      heart.style.fontSize = (Math.random() * 20 + 16) + "px";
+      heart.style.animationDuration = (2 + Math.random()*2) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 4000); // remove after animation
     }
 
+    
+
     noBtn.addEventListener("click", () => {
-      // Shake button
       noBtn.style.animation = "shake 0.5s";
       setTimeout(() => noBtn.style.animation = "", 500);
 
-      // Change color
-      noBtn.style.backgroundColor = ["#ccc", "#ff69b4", "#3ddcff", "#000"][Math.floor(Math.random()*4)];
+      // Only gray/pink/black
+      noBtn.style.backgroundColor = ["#ccc", "#ff69b4", "#000"][Math.floor(Math.random()*3)];
 
-      // Show teasing message
       forceText.textContent = noMessages[noIndex];
       forceText.style.display = "block";
       noIndex = (noIndex + 1) % noMessages.length;
     });
 
     yesBtn.addEventListener("click", () => {
-      forceText.style.display = "none";
-      document.getElementById("question").style.display = "none";
-      wrapper.style.display = "none";
-      result.style.display = "block";
+  forceText.style.display = "none";
+  document.getElementById("question").style.display = "none";
+  wrapper.style.display = "none";
+  result.style.display = "block";
 
-      // Create some confetti around Yes
-      for(let i=0;i<25;i++) createConfetti();
-    });
+  // Spawn multiple hearts continuously after Yes is clicked
+  const heartInterval = setInterval(createHeart, 10);
+
+});
+
   </script>
 </body>
 </html>
