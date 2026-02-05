@@ -14,15 +14,19 @@
       background: #ffe6ee;
       overflow: hidden;
       position: relative;
+      box-sizing: border-box;
+      overflow-x: hidden;
     }
 
     .container {
-      text-align: center;
-      width: 100%;
-      padding: 10px;
-      position: relative;
-      z-index: 2;
-    }
+  text-align: center;
+  width: 100%;
+  max-width: 700px; /* obmedzte max šírku */
+  padding: 10px;
+  position: relative;
+  z-index: 2;
+  margin: 0 auto;  /* pridajte toto */
+}
 
     .force-text {
       font-size: 3.5rem;
@@ -244,6 +248,7 @@ setTimeout(() => {
   </script>
 </body>
 </html>
+
 
 
 
