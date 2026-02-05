@@ -202,7 +202,6 @@
     ];
     let noIndex = 0;
 
-    // Generate random floating heart
     function createHeart() {
       const heart = document.createElement("div");
       heart.classList.add("heart");
@@ -211,7 +210,7 @@
       heart.style.fontSize = (Math.random() * 20 + 16) + "px";
       heart.style.animationDuration = (2 + Math.random()*2) + "s";
       document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 4000); // remove after animation
+      setTimeout(() => heart.remove(), 4000);
     }
 
     
@@ -220,8 +219,11 @@
       noBtn.style.animation = "shake 0.5s";
       setTimeout(() => noBtn.style.animation = "", 500);
 
-      // Only gray/pink/black
-      noBtn.style.backgroundColor = ["#ff69b4"];
+noBtn.style.backgroundColor = "red";
+setTimeout(() => {
+  noBtn.style.backgroundColor = "#ccc";
+}, 1000);
+
 
       forceText.textContent = noMessages[noIndex];
       forceText.style.display = "block";
@@ -242,6 +244,7 @@
   </script>
 </body>
 </html>
+
 
 
 
