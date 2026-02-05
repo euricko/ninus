@@ -89,37 +89,39 @@
     }
 
     #result {
-      text-align: center;
-    }
-
-    #result h2 {
-      font-size: 4rem;
-      color: #3ddcff;
-      animation: zoomBounce 0.5s ease forwards;
-      text-shadow: 1px 1px 3px black;
-    }
-
-    #result h3 {
-      font-size: 3.5rem;
-      color: #000000;
-      opacity: 0;
-      animation: zoomBounce 0.5s ease 0.3s forwards;
-    }
-
-    #result img {
-  display: block;               /* make it a block element */
-  margin: 30px auto 0;          /* center horizontally */
-  width: 400px;                  /* adjust to preferred size */
-  max-width: 90vw;               /* responsive */
-  height: auto;                  /* maintain aspect ratio */
-  transform-origin: center;      /* ensure zoom animation scales from center */
-  opacity: 0;
-  animation: zoomBounce 0.5s ease 0.6s forwards;
+  margin-top: 50px;
+  display: none;
+  text-align: center;          /* center all children */
 }
 
+#result h2 {
+  font-size: 4rem;
+  color: #3ddcff;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+  animation: zoomBounce 0.5s ease forwards;
+  transform-origin: center;    /* ensures zoom scales from center */
+  margin-bottom: 20px;
+}
 
+#result h3 {
+  font-size: 3.5rem;
+  color: #000000;
+  opacity: 0;
+  animation: zoomBounce 0.5s ease 0.3s forwards;
+  transform-origin: center;
+  margin-bottom: 20px;
+}
 
-
+#result img {
+  display: block;               /* block to allow margin auto */
+  margin: 0 auto 30px auto;     /* center horizontally with bottom spacing */
+  width: 400px;                 /* bigger size for visibility */
+  max-width: 90vw;              /* responsive */
+  height: auto;                 /* maintain aspect ratio */
+  opacity: 0;
+  animation: zoomBounce 0.5s ease 0.6s forwards;
+  transform-origin: center;     /* scale from center */
+}
     .heart {
       position: absolute;
       bottom: -50px;
@@ -252,6 +254,7 @@ setTimeout(() => {
   </script>
 </body>
 </html>
+
 
 
 
