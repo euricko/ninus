@@ -31,7 +31,10 @@
       display: none;
       font-weight: bold;
       animation: slideDown 0.5s ease forwards;
-      text-shadow: 1px 1px 3px black;
+      text-shadow:
+   0 0 4px rgba(61,220,255,0.6),
+   0 0 8px rgba(61,220,255,0.4),
+   2px 2px 4px rgba(0,0,0,0.4);
     }
 
     h1 {
@@ -221,7 +224,7 @@
       setTimeout(() => noBtn.style.animation = "", 500);
 
       // Only gray/pink/black
-      noBtn.style.backgroundColor = ["#ccc", "#ff69b4"][Math.floor(Math.random()*2)];
+      noBtn.style.backgroundColor = ["#ff69b4"];
 
       forceText.textContent = noMessages[noIndex];
       forceText.style.display = "block";
@@ -242,6 +245,7 @@
   </script>
 </body>
 </html>
+
 
 
 
